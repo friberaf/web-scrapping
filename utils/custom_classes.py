@@ -11,10 +11,11 @@ class Stats:
 
 
 class Team:
-	def __init__(self, season, name, statistics):
+	def __init__(self, season, name, position, statistics):
 		self.season = season
 		# self.position = position
 		self.name = name
+		self.position = position
 		self.total = Stats(statistics[0:7])
 		self.home = Stats(statistics[7:14])
 		self.away = Stats(statistics[14:21])
