@@ -3,9 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from utils.custom_classes import Team
+import pandas as pd
 
 
-def main():
+def scraping():
 	base_url_start = "https://resultados.as.com/resultados/futbol/primera/"
 	base_url_end = "/clasificacion/#"
 
@@ -23,7 +24,7 @@ def main():
 
 	while current_year < end_year:
 		season = str(current_year) + "_" + str(current_year + 1)
-		print("Season {}".format(season))
+		# print("Season {}".format(season))
 
 		page = requests.get(base_url_start + season + base_url_end)
 		soup = BeautifulSoup(page.content)
@@ -37,6 +38,13 @@ def main():
 			all_teams_statistics.append(team)
 
 		current_year += 1
+
+	#Export results
+	for team in all_teams_statistics:
+		print("{} got {} points".format(team.name, team.total.points))
+		df = team.export()
+		# print(df)
+
 
 
 def new_format_team_info(soup, season):
@@ -54,7 +62,7 @@ def new_format_team_info(soup, season):
 		current_statistics = statistics[num_values * i:num_values * (i + 1)]
 		current_postition = positions[i].get_text()
 		team = Team(season, team_name, current_postition, current_statistics)
-		print("{}. {}: {} points".format(team.position, team.name, team.total.points))
+		# print("{}. {}: {} points".format(team.position, team.name, team.total.points))
 		teams.append(team)
 
 	return teams
@@ -75,11 +83,12 @@ def old_format_team_info(soup, season):
 		current_statistics = statistics[num_values * i:num_values * (i + 1)]
 		current_postition = positions[i].get_text()
 		team = Team(season, team_name, current_postition, current_statistics)
-		print("{}. {}: {} points".format(team.position, team.name, team.total.points))
+		# print("{}. {}: {} points".format(team.position, team.name, team.total.points))
 		teams.append(team)
 
 	return teams
 
 
-main()
+if __name__ == "__main__":
+	scraping()
 
