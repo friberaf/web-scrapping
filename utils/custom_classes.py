@@ -16,50 +16,17 @@ class Stats:
 class Team:
 	def __init__(self, season, name, position, statistics):
 		self.season = season
-		# self.position = position
 		self.name = name
 		self.position = position
 		self.total = Stats(statistics[0:7])
 		self.home = Stats(statistics[7:14])
 		self.away = Stats(statistics[14:21])
 
+	# Ordre del header:
+	# season,name,position,points,played,won,drawn,lost,gf,ga,gd,h_points,h_played,h_won,h_drawn,h_lost,h_gf,h_ga,h_gd,a_points,a_played,a_won,a_drawn,a_lost,a_gf,a_ga,a_gd
 	def export(self):
-		output_df = pd.DataFrame()
+		team_list = list()
+		team_list.extend((self.season,self.name,self.position,self.total.points,self.total.played,self.total.won,self.total.drawn,self.total.lost,self.total.gf,self.total.ga,self.total.gd,self.home.points,self.home.played,self.home.won,self.home.drawn,self.home.lost,self.home.gf,self.home.ga,self.home.gd,self.away.points,self.away.played,self.away.won,self.away.drawn,self.away.lost,self.away.gf,self.away.ga,self.away.gd))
 
-		output_df['Season'] = self.season
-		# output_df[''] = self.position
-		output_df['Team'] = self.name
-		output_df['Position'] = self.position
+		return team_list
 
-		output_df['total_Points'] = self.total.points
-		output_df['total_Played'] = self.total.played
-		output_df['total_Won'] = self.total.won
-		output_df['total_Drawn'] = self.total.drawn
-		output_df['total_Lost'] = self.total.lost
-		output_df['total_GF'] = self.total.gf
-		output_df['total_GA'] = self.total.ga
-		output_df['total_GD'] = self.total.gd
-
-		output_df['home_Points'] = self.home.points
-		output_df['home_Played'] = self.home.played
-		output_df['home_Won'] = self.home.won
-		output_df['home_Drawn'] = self.home.drawn
-		output_df['home_Lost'] = self.home.lost
-		output_df['home_GF'] = self.home.gf
-		output_df['home_GA'] = self.home.ga
-		output_df['home_GD'] = self.home.gd
-
-		output_df['away_Points'] = self.away.points
-		output_df['away_Played'] = self.away.played
-		output_df['away_Won'] = self.away.won
-		output_df['away_Drawn'] = self.away.drawn
-		output_df['away_Lost'] = self.away.lost
-		output_df['away_GF'] = self.away.gf
-		output_df['away_GA'] = self.away.ga
-		output_df['away_GD'] = self.away.gd
-
-		print("--- in ---")
-		print(output_df)
-		print("out")
-
-		return output_df

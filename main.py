@@ -3,8 +3,8 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from utils.custom_classes import Team
+import csv
 import pandas as pd
-
 
 def scraping():
 	base_url_start = "https://resultados.as.com/resultados/futbol/primera/"
@@ -39,12 +39,7 @@ def scraping():
 
 		current_year += 1
 
-	#Export results
-	for team in all_teams_statistics:
-		print("{} got {} points".format(team.name, team.total.points))
-		df = team.export()
-		# print(df)
-
+	export(all_teams_statistics)
 
 
 def new_format_team_info(soup, season):
@@ -60,9 +55,9 @@ def new_format_team_info(soup, season):
 	for i in range(len(team_names)):
 		team_name = team_names[i].find("span", class_="nombre-equipo").get_text()
 		current_statistics = statistics[num_values * i:num_values * (i + 1)]
-		current_postition = positions[i].get_text()
-		team = Team(season, team_name, current_postition, current_statistics)
-		# print("{}. {}: {} points".format(team.position, team.name, team.total.points))
+		current_position = positions[i].get_text()
+		team = Team(season, team_name, current_position, current_statistics)
+		print("{}. {}: {} points".format(team.position, team.name, team.total.points))
 		teams.append(team)
 
 	return teams
@@ -87,6 +82,15 @@ def old_format_team_info(soup, season):
 		teams.append(team)
 
 	return teams
+
+
+def export(teams):
+	with open('ouput.csv', mode='w', newline='') as teams_file:
+		teams_writer = csv.writer(teams_file, delimiter=",")
+		teams_writer.writerow(['season','name','position','points','played','won','drawn','lost','gf','ga','gd','h_points','h_played','h_won','h_drawn','h_lost','h_gf','h_ga','h_gd','a_points','a_played','a_won','a_drawn','a_lost','a_gf','a_ga','a_gd'])
+
+		for team in teams:
+			teams_writer.writerow(team.export())
 
 
 if __name__ == "__main__":
