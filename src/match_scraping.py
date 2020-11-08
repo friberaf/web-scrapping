@@ -24,10 +24,12 @@ class MatchScraping:
         # For each season
         while current_year < end_year:
             season = str(current_year) + "_" + str(current_year + 1)[-2:]
+            # Season name as it's being saved at the classification scrapping
+            season_name = str(current_year) + "_" + str(current_year + 1)
 
             # For each matchweek
             for matchweek in range(1,39):
-                print("Retrieving information season {} matchweek {}".format(season, matchweek))
+                print("Retrieving information season {} matchweek {}".format(season_name, matchweek))
 
                 # Get the HTML information
                 page = requests.get("https://www.marca.com/estadisticas/futbol/primera/{}/jornada_{}/".format(
@@ -48,7 +50,7 @@ class MatchScraping:
                     # If the result does not exist, it is repaced for blank
                     if len(match.find_all("td", class_="resultado")) == 0:
                         self.all_matches.append(Match(
-                            season,
+                            season_name,
                             matchweek,
                             match.find("td", class_="equipo-local").get_text(),
                             match.find("td", class_="equipo-visitante").get_text(),
@@ -56,7 +58,7 @@ class MatchScraping:
                             
                     else:
                         self.all_matches.append(Match(
-                            season,
+                            season_name,
                             matchweek,
                             match.find("td", class_="equipo-local").get_text(),
                             match.find("td", class_="equipo-visitante").get_text(),
