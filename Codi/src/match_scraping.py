@@ -68,7 +68,7 @@ class MatchScraping:
 
     def export(self):
         # Write a CSV file
-        with open('{}\\..\\output\\match_data.csv'.format(pathlib.Path(__file__).parent), mode='w', newline='') as matches_file:
+        with open('{}\\..\\..\\output\\historic_partits_lliguers.csv'.format(pathlib.Path(__file__).parent), mode='w', newline='') as matches_file:
             matches_writer = csv.writer(matches_file, delimiter=",")
             matches_writer.writerow(['season', 'matchweek', 'home', 'visitor', 'result'])
                 

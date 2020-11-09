@@ -82,7 +82,7 @@ class ClasificationScraping:
 
     def export(self):
         # Write a CSV file
-        with open('{}\\..\\output\\team_data.csv'.format(pathlib.Path(__file__).parent), mode='w', newline='') as teams_file:
+        with open('{}\\..\\..\\output\\historic_classificacions_lligueres.csv'.format(pathlib.Path(__file__).parent), mode='w', newline='') as teams_file:
             teams_writer = csv.writer(teams_file, delimiter=",")
             teams_writer.writerow(['season', 'name', 'position', 'points', 'played', 'won', 'drawn', 'lost', 'gf', 'ga', 'gd', 'h_points', 'h_played', 'h_won', 'h_drawn', 'h_lost', 'h_gf', 'h_ga', 'h_gd', 'a_points', 'a_played', 'a_won', 'a_drawn', 'a_lost', 'a_gf', 'a_ga', 'a_gd'])
 
